@@ -1,0 +1,5 @@
+name: Minigame Base
+version: '${project.version}'
+main: com.doobie.minigamebase.MinigameBase
+api-version: 1.19
+authors: [ Doobie ]
