@@ -16,7 +16,7 @@ public class ArenaManager {
 
 		FileConfiguration config = minigameBase.getConfig();
 
-		for (String str : config.getConfigurationSection("arenas").getKeys(false)) {
+		for (String str : config.getConfigurationSection("arenas.").getKeys(false)) {
 			arenas.add(new Arena(minigameBase,Integer.parseInt(str), new Location(
 					minigameBase.getServer().getWorld(config.getString("arenas." + str + ".world")),
 					config.getDouble("arenas." + str + ".x"),

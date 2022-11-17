@@ -38,7 +38,7 @@ public class ArenaCommand implements CommandExecutor
 				}
 
 			} else if (args.length == 2 && args[0].equalsIgnoreCase("join")) {
-				if (minigameBase.getArenaManager().getArena(player) == null) {
+				if (minigameBase.getArenaManager().getArena(player) != null) {
 					player.sendMessage(ChatColor.GREEN + "You have already joined an arena.");
 					return false;
 				} else {
