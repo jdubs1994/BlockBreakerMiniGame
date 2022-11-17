@@ -28,12 +28,13 @@ public class Countdown extends BukkitRunnable {
 			arena.setState(GameState.LIVE);
 			cancel();
 			arena.start();
+			return;
 
-		} else {
+		}
 			if(countdownSeconds <= 10 || countdownSeconds % 15 == 0) {
 				arena.sendMessage(ChatColor.GREEN + "Game starting in " + countdownSeconds + " second " + (countdownSeconds == 1 ? "" : "s")+ ".");
 			}
+			arena.sendTitle(ChatColor.GREEN + "Game starting in " + countdownSeconds + " second " + (countdownSeconds == 1 ? "" : "s")+ ".",ChatColor.GRAY +"until game starts");
 			countdownSeconds--;
-		}
 	}
 }

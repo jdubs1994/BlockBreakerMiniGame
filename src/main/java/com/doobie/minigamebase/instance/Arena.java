@@ -3,6 +3,7 @@ package com.doobie.minigamebase.instance;
 import com.doobie.minigamebase.MinigameBase;
 import com.doobie.minigamebase.manager.ConfigManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -21,6 +22,8 @@ public class Arena {
 	private Countdown countdown;
 
 	private Game game;
+
+
 
 	public Arena(MinigameBase minigameBase, int id, Location spawn) {
 		this.id = id;
@@ -65,6 +68,7 @@ public class Arena {
 			}
 			players.clear();
 		}
+		sendTitle("","");
 		state = GameState.RECRUITING;
 		countdown.cancel();
 
@@ -76,6 +80,20 @@ public class Arena {
 	public void removePlayer(Player player) {
 		players.remove(player.getUniqueId());
 		player.teleport(ConfigManager.getLobbySpawn());
+		player.sendTitle("","");
+
+		if(state == GameState.COUNTDOWN && players.size() < ConfigManager.getRequiredPlayers()) {
+			sendMessage(ChatColor.RED + "Not enough players to start the game!");
+			reset(false);
+			return;
+		}
+
+		if(state == GameState.LIVE && players.size() < ConfigManager.getRequiredPlayers()) {
+			sendMessage(ChatColor.RED + "Not enough players to continue the game!");
+			reset(false);
+		}
+
+
 	}
 
 	// Getters
@@ -94,4 +112,7 @@ public class Arena {
 		this.state = state;
 	}
 
+	public Game getGame() {
+		return game;
+	}
 }
