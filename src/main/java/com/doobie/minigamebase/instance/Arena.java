@@ -12,6 +12,7 @@ import java.util.UUID;
 
 public class Arena {
 
+	private MinigameBase minigameBase;
 	private int id;
 	private Location spawn;
 
@@ -19,12 +20,16 @@ public class Arena {
 	private GameState state;
 	private Countdown countdown;
 
+	private Game game;
+
 	public Arena(MinigameBase minigameBase, int id, Location spawn) {
 		this.id = id;
 		this.spawn = spawn;
 		this.state = GameState.RECRUITING;
 		this.players = new ArrayList<>();
 		this.countdown = new Countdown(minigameBase, this);
+		this.game = new Game(this);
+		this.minigameBase = minigameBase;
 	}
 
 	public void sendMessage (String message) {
@@ -48,6 +53,25 @@ public class Arena {
 			}
 		}
 	}
+	public void start() {
+		game.start();
+	}
+
+	public void reset(boolean kickPlayers) {
+		if(kickPlayers) {
+			Location lobbySpawn = ConfigManager.getLobbySpawn();
+			for (UUID uuid : players) {
+				Bukkit.getPlayer(uuid).teleport(lobbySpawn);
+			}
+			players.clear();
+		}
+		state = GameState.RECRUITING;
+		countdown.cancel();
+
+		countdown = new Countdown(minigameBase, this);
+		game = new Game(this);
+
+	}
 
 	public void removePlayer(Player player) {
 		players.remove(player.getUniqueId());
@@ -70,6 +94,4 @@ public class Arena {
 		this.state = state;
 	}
 
-	public void start() {
-	}
 }
